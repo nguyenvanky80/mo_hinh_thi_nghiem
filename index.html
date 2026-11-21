@@ -98,10 +98,11 @@ button:hover{filter:brightness(.97);transform:translateY(-1px)}
    <button class="primary" id="play">▶ Chạy thí nghiệm</button>
    <button class="secondary" id="pause">Ⅱ Tạm dừng</button>
    <button class="reset" id="reset">↺ Làm lại</button>
+   <button class="secondary" id="commentsToggle" aria-expanded="false">☰ Nhận xét</button>
    <span class="time">Thời gian: <b id="clock">0,0 s</b></span>
   </div>
  </section>
- <section class="conclusion">
+ <section class="conclusion" id="conclusion" hidden>
   <h3>Quan sát và rút ra nhận xét</h3>
   <div class="conclusion-grid">
    <div class="result"><b>So sánh a và b – giữ nguyên lực đẩy:</b><br>Xe b có khối lượng lớn hơn nên gia tốc nhỏ hơn, chuyển động chậm tăng tốc hơn.</div>
@@ -165,7 +166,8 @@ function update(){
 function frame(now){if(!running)return;if(!last)last=now;let dt=Math.min((now-last)/1000,.05);last=now;t+=dt;if(t>=5){t=5;running=false;}update();if(running)raf=requestAnimationFrame(frame);}
 document.getElementById('play').onclick=()=>{if(t>=5)t=0;running=true;last=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);};
 document.getElementById('pause').onclick=()=>{running=false;cancelAnimationFrame(raf);};
-document.getElementById('reset').onclick=()=>{running=false;cancelAnimationFrame(raf);t=0;update();};
+document.getElementById('commentsToggle').onclick=()=>{const panel=document.getElementById('conclusion');panel.hidden=!panel.hidden;document.getElementById('commentsToggle').setAttribute('aria-expanded',String(!panel.hidden));};
+document.getElementById('reset').onclick=()=>{running=false;cancelAnimationFrame(raf);t=0;update();document.getElementById('conclusion').hidden=true;document.getElementById('commentsToggle').setAttribute('aria-expanded','false');};
 mass.oninput=()=>{running=false;cancelAnimationFrame(raf);t=0;update();};
 force.oninput=()=>{running=false;cancelAnimationFrame(raf);t=0;update();};
 update();
